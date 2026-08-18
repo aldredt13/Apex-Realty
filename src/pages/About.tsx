@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Icon from "../components/Icon";
 import Reveal from "../components/Reveal";
-import { site } from "../data/site";
+import { useSettings } from "../context/SettingsContext";
 import { images } from "../data/images";
 
 const values = [
@@ -30,6 +30,7 @@ const stats = [
 ];
 
 export default function About() {
+  const settings = useSettings();
   return (
     <>
       {/* ---------------- PAGE HERO ---------------- */}
@@ -42,7 +43,7 @@ export default function About() {
             About <span className="gold-text">Team APEX</span>
           </h1>
           <p>
-            {site.legalName} is a results-driven real estate team helping
+            {settings.legalName} is a results-driven real estate team helping
             homeowners buy, sell and rent — and guiding agents to build
             successful careers across South Africa.
           </p>

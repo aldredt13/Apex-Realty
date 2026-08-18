@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Icon from "../components/Icon";
 import Reveal from "../components/Reveal";
 import ContactForm from "../components/ContactForm";
-import { site } from "../data/site";
+import { useSettings } from "../context/SettingsContext";
 
 const faqs = [
   {
@@ -24,6 +24,7 @@ const faqs = [
 ];
 
 export default function Contact() {
+  const settings = useSettings();
   return (
     <>
       {/* ---------------- PAGE HERO ---------------- */}
@@ -52,31 +53,31 @@ export default function Contact() {
                 Let's talk
               </h2>
               <div className="contact-methods">
-                <a href={site.whatsapp.link} target="_blank" rel="noreferrer" className="contact-method">
+                <a href={settings.whatsapp.link} target="_blank" rel="noreferrer" className="contact-method">
                   <div className="contact-method__icon">
                     <Icon name="whatsapp" />
                   </div>
                   <div>
                     <b>WhatsApp</b>
-                    <span>{site.whatsapp.display} · Click to chat</span>
+                    <span>{settings.whatsapp.display} · Click to chat</span>
                   </div>
                 </a>
-                <a href={`mailto:${site.email}`} className="contact-method">
+                <a href={`mailto:${settings.email}`} className="contact-method">
                   <div className="contact-method__icon">
                     <Icon name="mail" />
                   </div>
                   <div>
                     <b>Email</b>
-                    <span>{site.email}</span>
+                    <span>{settings.email}</span>
                   </div>
                 </a>
-                <a href={site.phone.link} className="contact-method">
+                <a href={settings.phone.link} className="contact-method">
                   <div className="contact-method__icon">
                     <Icon name="phone" />
                   </div>
                   <div>
                     <b>Phone</b>
-                    <span>{site.phone.display}</span>
+                    <span>{settings.phone.display}</span>
                   </div>
                 </a>
                 <div className="contact-method">
@@ -91,15 +92,21 @@ export default function Contact() {
               </div>
 
               <div className="socials" style={{ marginTop: 24 }}>
-                <a href={site.social.facebook} target="_blank" rel="noreferrer" aria-label="Facebook">
-                  <Icon name="facebook" />
-                </a>
-                <a href={site.social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
-                  <Icon name="instagram" />
-                </a>
-                <a href={site.social.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                  <Icon name="linkedin" />
-                </a>
+                {settings.social.facebook && (
+                  <a href={settings.social.facebook} target="_blank" rel="noreferrer" aria-label="Facebook">
+                    <Icon name="facebook" />
+                  </a>
+                )}
+                {settings.social.instagram && (
+                  <a href={settings.social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
+                    <Icon name="instagram" />
+                  </a>
+                )}
+                {settings.social.linkedin && (
+                  <a href={settings.social.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                    <Icon name="linkedin" />
+                  </a>
+                )}
               </div>
             </Reveal>
 

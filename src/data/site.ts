@@ -56,6 +56,7 @@ export const areas = [
 // Primary navigation shown in the header.
 export const nav = [
   { label: "Home", to: "/" },
+  { label: "Properties", to: "/properties" },
   { label: "About Us", to: "/about" },
   { label: "For Sellers", to: "/for-sellers" },
   { label: "For Agents", to: "/for-agents" },

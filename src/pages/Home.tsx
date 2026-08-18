@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import Icon from "../components/Icon";
 import Reveal from "../components/Reveal";
 import CityImage from "../components/CityImage";
-import { areas, site } from "../data/site";
+import { areas } from "../data/site";
+import { useSettings } from "../context/SettingsContext";
 import { images } from "../data/images";
 
 export default function Home() {
+  const settings = useSettings();
   return (
     <>
       {/* ---------------- HERO ---------------- */}
@@ -26,7 +28,7 @@ export default function Home() {
               <span className="rule" />
             </h1>
             <p className="hero__lead">
-              <strong>{site.legalName}</strong> — your trusted real estate team in
+              <strong>{settings.legalName}</strong> — your trusted real estate team in
               South Africa. We list and sell property, assist with rentals, and
               build successful agent careers.
             </p>
@@ -250,7 +252,7 @@ export default function Home() {
               </p>
             </div>
             <div className="ctaband__actions">
-              <a href={site.whatsapp.link} className="btn btn--whatsapp btn--lg" target="_blank" rel="noreferrer">
+              <a href={settings.whatsapp.link} className="btn btn--whatsapp btn--lg" target="_blank" rel="noreferrer">
                 <Icon name="whatsapp" /> Chat on WhatsApp
               </a>
               <Link to="/contact" className="btn btn--outline btn--lg">

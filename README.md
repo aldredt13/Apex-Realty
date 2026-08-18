@@ -8,14 +8,22 @@ with a sticky nav, mobile menu, floating WhatsApp button and animated sections.
 
 ## Pages
 
-| Route          | Page            | Purpose                                                   |
-| -------------- | --------------- | --------------------------------------------------------- |
-| `/`            | Home            | Hero, what we do, who we are, areas, agent teaser, CTA    |
-| `/about`       | About Us        | Story, values, stats                                      |
-| `/for-sellers` | For Sellers     | List your property — process, benefits, enquiry form      |
-| `/for-agents`  | For Agents      | Recruitment — benefits, why-us, testimonials, join form   |
-| `/areas`       | Areas We Serve  | The six cities served + enquiry links                     |
-| `/contact`     | Contact         | Contact details, enquiry form, FAQ                        |
+| Route                | Page            | Purpose                                                   |
+| -------------------- | --------------- | --------------------------------------------------------- |
+| `/`                  | Home            | Hero, what we do, who we are, areas, agent teaser, CTA    |
+| `/properties`        | Properties      | All listings, filterable, with pagination                 |
+| `/properties/:slug`  | Listing detail  | Photo gallery, specs, description + enquiry form           |
+| `/about`             | About Us        | Story, values, stats                                      |
+| `/for-sellers`       | For Sellers     | List your property — process, benefits, enquiry form      |
+| `/for-agents`        | For Agents      | Recruitment — benefits, why-us, testimonials, join form   |
+| `/areas`             | Areas We Serve  | The six cities served + enquiry links                     |
+| `/contact`           | Contact         | Contact details, enquiry form, FAQ                        |
+| `/dashboard`         | Admin dashboard | Manage listings, submissions & site settings (login req.) |
+
+> **The site works with or without a backend.** Until you add Supabase keys,
+> the public site runs normally (forms fall back to WhatsApp, listings show a
+> "coming soon" state). Add the keys to unlock listings, stored submissions and
+> the admin dashboard — see **Backend & Dashboard** below.
 
 ## Run it
 
@@ -62,16 +70,67 @@ To update the logo, replace `logo.png` / `logo-light.png` and keep the same
 filenames. `src/components/Logo.tsx` picks the light version automatically via
 its `light` prop.
 
-## Making the forms send real emails
+## Backend & Dashboard (Supabase)
 
-The enquiry forms (**Join** and **Contact**) currently open a pre-filled
-**WhatsApp** message as a no-backend fallback — they work immediately with no
-setup. To also receive submissions by email, wire them to a form service such as
-[Formspree](https://formspree.io) or [Web3Forms](https://web3forms.com):
+The listings, stored form submissions and admin dashboard are powered by
+[Supabase](https://supabase.com) (Postgres + Auth + Storage). Setup is three
+steps.
 
-- Edit `src/components/JoinForm.tsx` and `src/components/ContactForm.tsx`.
-- In `handleSubmit`, `POST` the form state to your endpoint (e.g. Formspree URL)
-  before/instead of opening WhatsApp.
+### 1. Create the database
+
+In your Supabase project open **SQL Editor**, paste the contents of
+[`supabase/schema.sql`](supabase/schema.sql) and **Run**. It creates every
+table, security policy and the image storage bucket, and is safe to re-run.
+
+> **Before running:** near the top of the file, change the admin email in the
+> `insert into public.admins` line to the email you'll sign in to the dashboard
+> with (it defaults to `aldredt13@gmail.com`).
+
+### 2. Connect the app
+
+Copy `.env.example` to `.env` and fill in your project's values from
+**Supabase → Project Settings → API**:
+
+```bash
+VITE_SUPABASE_URL=https://YOUR-ref.supabase.co
+VITE_SUPABASE_ANON_KEY=YOUR-publishable-or-anon-key
+```
+
+Restart `npm run dev` after creating `.env`. (The anon key is safe in the
+browser — Row Level Security protects your data.)
+
+### 3. Create your admin login
+
+Go to **`/dashboard/login`**, click *"Create one"*, and sign up with the email
+you added to the `admins` table. For instant sign-in, either click the
+confirmation link Supabase emails you, or turn off **Authentication → Providers
+→ Email → Confirm email** in the Supabase dashboard.
+
+### What the dashboard does (`/dashboard`)
+
+- **Listings** — create / edit / delete properties. Photos are **compressed in
+  the browser** (resized to 2000px, re-encoded to WebP at high quality — usually
+  25–40% smaller) before upload, and it shows how much space was saved. Drag to
+  reorder; the first photo is the cover.
+- **Submissions** — every enquiry, contact message, seller lead and agent
+  application, filterable, with unread badges.
+- **Site Settings** — edit the WhatsApp number, phone, email, social links,
+  domain, tagline and about text. Changes appear across the public site.
+
+### How security works (Row Level Security)
+
+- The public (anon key) can **read** listings + settings and **insert** form
+  submissions — nothing else.
+- Only a signed-in user whose email is in the `admins` table can create/edit
+  listings, read submissions, or change settings. This is enforced in the
+  database, not just the UI, via an `is_admin()` check on every write policy.
+- The `listing-images` storage bucket is public-read, admin-write.
+
+### Forms without a backend
+
+Until Supabase is configured, the **Contact**, **Sell**, **Join** and
+**Enquiry** forms fall back to opening a pre-filled **WhatsApp** message, so the
+site is fully usable from day one.
 
 ## Deploying
 
@@ -85,10 +144,19 @@ Run `npm run build` and host the generated `dist/` folder on any static host —
 
 ## Tech notes
 
-- `src/components/` — Header (with mobile drawer), Footer, Logo, Icon set,
-  forms, scroll-reveal wrapper, floating WhatsApp, layout.
+- `src/components/` — Header (mobile drawer), Footer, Logo, Icon set, forms,
+  listing card, pagination, image uploader, scroll-reveal, floating WhatsApp.
+- `src/pages/` — public pages; `src/pages/dashboard/` — the admin area.
+- `src/context/` — `SettingsContext` (live site settings with static fallback)
+  and `AuthContext` (Supabase auth + admin check).
+- `src/lib/` — `supabase.ts` (client), `types.ts`, `imaging.ts` (compress +
+  upload), `submissions.ts`, `format.ts`.
+- `src/data/site.ts` — static **fallback** contact info / areas / testimonials
+  used before Supabase is configured (settings from the dashboard override it).
 - `src/index.css` — the full design system (brand colours, buttons, all
-  component styles, responsive breakpoints).
+  component + dashboard styles, responsive breakpoints).
 - Icons are inline SVG (`src/components/Icon.tsx`) — no icon library dependency.
 - Fonts (Montserrat, Inter, Dancing Script) load from Google Fonts in
   `index.html`.
+- Packages added for the backend: `@supabase/supabase-js`,
+  `browser-image-compression`.

@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import Icon from "../components/Icon";
 import Reveal from "../components/Reveal";
 import CityImage from "../components/CityImage";
-import { areas, site } from "../data/site";
+import { areas } from "../data/site";
+import { useSettings } from "../context/SettingsContext";
 
 export default function Areas() {
+  const settings = useSettings();
   return (
     <>
       {/* ---------------- PAGE HERO ---------------- */}
@@ -38,7 +40,7 @@ export default function Areas() {
                   </div>
                   <p>{area.blurb}</p>
                   <a
-                    href={site.whatsapp.link}
+                    href={settings.whatsapp.link}
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn--ghost"
@@ -77,7 +79,7 @@ export default function Areas() {
               </p>
             </div>
             <div className="ctaband__actions">
-              <a href={site.whatsapp.link} className="btn btn--whatsapp btn--lg" target="_blank" rel="noreferrer">
+              <a href={settings.whatsapp.link} className="btn btn--whatsapp btn--lg" target="_blank" rel="noreferrer">
                 <Icon name="whatsapp" /> Chat on WhatsApp
               </a>
               <Link to="/contact" className="btn btn--outline btn--lg">

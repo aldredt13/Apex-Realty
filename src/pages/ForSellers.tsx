@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Icon from "../components/Icon";
 import Reveal from "../components/Reveal";
 import ContactForm from "../components/ContactForm";
-import { site } from "../data/site";
+import { useSettings } from "../context/SettingsContext";
 import { images } from "../data/images";
 
 const steps = [
@@ -30,6 +30,7 @@ const values = [
 ];
 
 export default function ForSellers() {
+  const settings = useSettings();
   return (
     <>
       {/* ---------------- PAGE HERO ---------------- */}
@@ -50,7 +51,7 @@ export default function ForSellers() {
             <a href="#list" className="btn btn--gold btn--lg">
               <Icon name="home" /> List Your Property
             </a>
-            <a href={site.whatsapp.link} className="btn btn--outline btn--lg" target="_blank" rel="noreferrer">
+            <a href={settings.whatsapp.link} className="btn btn--outline btn--lg" target="_blank" rel="noreferrer">
               <Icon name="whatsapp" /> Chat on WhatsApp
             </a>
           </div>

@@ -1,7 +1,8 @@
 import Icon from "../components/Icon";
 import Reveal from "../components/Reveal";
 import JoinForm from "../components/JoinForm";
-import { areas, site, testimonials } from "../data/site";
+import { areas, testimonials } from "../data/site";
+import { useSettings } from "../context/SettingsContext";
 import { images } from "../data/images";
 
 const benefits = [
@@ -23,6 +24,7 @@ const reasons = [
 ];
 
 export default function ForAgents() {
+  const settings = useSettings();
   return (
     <>
       {/* ---------------- HERO ---------------- */}
@@ -39,7 +41,7 @@ export default function ForAgents() {
               <span className="rule" />
             </h1>
             <p className="hero__lead">
-              {site.legalName} is looking for successful, committed{" "}
+              {settings.legalName} is looking for successful, committed{" "}
               <strong>Full Status Qualified</strong> Property Practitioners to join
               our growing national team.
             </p>
@@ -48,7 +50,7 @@ export default function ForAgents() {
                 <Icon name="users" />
                 I Want to Join Team APEX
               </a>
-              <a href={site.whatsapp.link} className="btn btn--outline btn--lg" target="_blank" rel="noreferrer">
+              <a href={settings.whatsapp.link} className="btn btn--outline btn--lg" target="_blank" rel="noreferrer">
                 <Icon name="phone" />
                 Speak to Us Today
               </a>

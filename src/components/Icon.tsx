@@ -37,7 +37,27 @@ export type IconName =
   | "whatsapp"
   | "facebook"
   | "instagram"
-  | "linkedin";
+  | "linkedin"
+  | "bed"
+  | "bath"
+  | "car"
+  | "ruler"
+  | "tag"
+  | "chevron-left"
+  | "chevron-right"
+  | "grid"
+  | "settings"
+  | "inbox"
+  | "plus"
+  | "edit"
+  | "trash"
+  | "upload"
+  | "image"
+  | "eye"
+  | "logout"
+  | "external"
+  | "refresh"
+  | "search";
 
 const stroke = {
   fill: "none",
@@ -290,6 +310,149 @@ export default function Icon({ name, className }: IconProps) {
             fill="currentColor"
             d="M6.94 5A1.94 1.94 0 1 1 3.06 5a1.94 1.94 0 0 1 3.88 0ZM3.3 8.4h3.28V21H3.3V8.4Zm5.32 0h3.14v1.72h.05c.44-.83 1.5-1.7 3.1-1.7 3.32 0 3.93 2.18 3.93 5.02V21h-3.28v-5.9c0-1.4-.03-3.22-1.96-3.22-1.96 0-2.26 1.53-2.26 3.11V21H8.62V8.4Z"
           />
+        </svg>
+      );
+    case "bed":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M3 8v11M3 12h18v7M21 12v7" />
+          <path d="M3 12v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
+        </svg>
+      );
+    case "bath":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M4 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2" />
+          <path d="M3 12h18v2a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-2Z" />
+          <path d="M7 18v2M17 18v2" />
+        </svg>
+      );
+    case "car":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M4 16v2M20 16v2" />
+          <path d="M3 16v-3l2-5a2 2 0 0 1 1.9-1.3h10.2A2 2 0 0 1 19 8l2 5v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z" />
+          <path d="M6.5 13h.01M17.5 13h.01M4 10h16" />
+        </svg>
+      );
+    case "ruler":
+      return (
+        <svg {...common} {...stroke}>
+          <rect x="3" y="8" width="18" height="8" rx="1.5" transform="rotate(0 12 12)" />
+          <path d="M7 8v3M11 8v4M15 8v3M19 8v4" />
+        </svg>
+      );
+    case "tag":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M4 4h7l9 9-7 7-9-9V4Z" />
+          <circle cx="8" cy="8" r="1.4" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "chevron-left":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="m15 6-6 6 6 6" />
+        </svg>
+      );
+    case "chevron-right":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="m9 6 6 6-6 6" />
+        </svg>
+      );
+    case "grid":
+      return (
+        <svg {...common} {...stroke}>
+          <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
+          <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
+          <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
+          <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" />
+        </svg>
+      );
+    case "settings":
+      return (
+        <svg {...common} {...stroke}>
+          <circle cx="12" cy="12" r="3" />
+          <path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+        </svg>
+      );
+    case "inbox":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M3 13l3-8h12l3 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6Z" />
+          <path d="M3 13h5l1 2h6l1-2h5" />
+        </svg>
+      );
+    case "plus":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+      );
+    case "edit":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M4 20h4L19 9l-4-4L4 16v4Z" />
+          <path d="M14.5 5.5 18.5 9.5" />
+        </svg>
+      );
+    case "trash":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M4 6h16M9 6V4h6v2M6 6l1 14h10l1-14" />
+          <path d="M10 10v6M14 10v6" />
+        </svg>
+      );
+    case "upload":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M12 16V5m0 0L8 9m4-4 4 4" />
+          <path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" />
+        </svg>
+      );
+    case "image":
+      return (
+        <svg {...common} {...stroke}>
+          <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
+          <circle cx="8.5" cy="9.5" r="1.6" />
+          <path d="m4 17 5-4 4 3 3-2 4 3" />
+        </svg>
+      );
+    case "eye":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      );
+    case "logout":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M15 5H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h9" />
+          <path d="M16 8l4 4-4 4M20 12H9" />
+        </svg>
+      );
+    case "external":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M14 4h6v6M20 4l-9 9" />
+          <path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" />
+        </svg>
+      );
+    case "refresh":
+      return (
+        <svg {...common} {...stroke}>
+          <path d="M20 11a8 8 0 0 0-14-4.5L4 8" />
+          <path d="M4 4v4h4M4 13a8 8 0 0 0 14 4.5L20 16" />
+          <path d="M20 20v-4h-4" />
+        </svg>
+      );
+    case "search":
+      return (
+        <svg {...common} {...stroke}>
+          <circle cx="11" cy="11" r="6.5" />
+          <path d="m16 16 4 4" />
         </svg>
       );
     default:

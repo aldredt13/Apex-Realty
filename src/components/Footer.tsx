@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import Icon from "./Icon";
-import { nav, site } from "../data/site";
+import { nav } from "../data/site";
+import { useSettings } from "../context/SettingsContext";
 
 export default function Footer() {
+  const settings = useSettings();
   const year = new Date().getFullYear();
 
   return (
@@ -12,22 +14,24 @@ export default function Footer() {
         <div className="footer__grid">
           <div>
             <Logo light />
-            <p className="footer__about">
-              {site.legalName} is a results-driven real estate team helping
-              homeowners buy, sell and rent — and guiding agents to successful
-              careers across South Africa.
-            </p>
+            <p className="footer__about">{settings.about}</p>
             <div className="socials" style={{ marginTop: 18 }}>
-              <a href={site.social.facebook} target="_blank" rel="noreferrer" aria-label="Facebook">
-                <Icon name="facebook" />
-              </a>
-              <a href={site.social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
-                <Icon name="instagram" />
-              </a>
-              <a href={site.social.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <Icon name="linkedin" />
-              </a>
-              <a href={site.whatsapp.link} target="_blank" rel="noreferrer" aria-label="WhatsApp">
+              {settings.social.facebook && (
+                <a href={settings.social.facebook} target="_blank" rel="noreferrer" aria-label="Facebook">
+                  <Icon name="facebook" />
+                </a>
+              )}
+              {settings.social.instagram && (
+                <a href={settings.social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
+                  <Icon name="instagram" />
+                </a>
+              )}
+              {settings.social.linkedin && (
+                <a href={settings.social.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                  <Icon name="linkedin" />
+                </a>
+              )}
+              <a href={settings.whatsapp.link} target="_blank" rel="noreferrer" aria-label="WhatsApp">
                 <Icon name="whatsapp" />
               </a>
             </div>
@@ -47,17 +51,17 @@ export default function Footer() {
           <div>
             <h4>Contact Us</h4>
             <div className="footer__contact">
-              <a href={site.whatsapp.link} target="_blank" rel="noreferrer">
+              <a href={settings.whatsapp.link} target="_blank" rel="noreferrer">
                 <Icon name="whatsapp" />
-                <span>WhatsApp: {site.whatsapp.display}</span>
+                <span>WhatsApp: {settings.whatsapp.display}</span>
               </a>
-              <a href={`mailto:${site.email}`}>
+              <a href={`mailto:${settings.email}`}>
                 <Icon name="mail" />
-                <span>{site.email}</span>
+                <span>{settings.email}</span>
               </a>
-              <a href={site.phone.link}>
+              <a href={settings.phone.link}>
                 <Icon name="phone" />
-                <span>{site.phone.display}</span>
+                <span>{settings.phone.display}</span>
               </a>
               <span>
                 <Icon name="pin" />
@@ -69,17 +73,23 @@ export default function Footer() {
           <div>
             <h4>Follow Us</h4>
             <div className="footer__links">
-              <a href={site.social.facebook} target="_blank" rel="noreferrer">
-                Facebook
-              </a>
-              <a href={site.social.instagram} target="_blank" rel="noreferrer">
-                Instagram
-              </a>
-              <a href={site.social.linkedin} target="_blank" rel="noreferrer">
-                LinkedIn
-              </a>
-              <a href={`https://${site.domain}`} target="_blank" rel="noreferrer">
-                {site.domain}
+              {settings.social.facebook && (
+                <a href={settings.social.facebook} target="_blank" rel="noreferrer">
+                  Facebook
+                </a>
+              )}
+              {settings.social.instagram && (
+                <a href={settings.social.instagram} target="_blank" rel="noreferrer">
+                  Instagram
+                </a>
+              )}
+              {settings.social.linkedin && (
+                <a href={settings.social.linkedin} target="_blank" rel="noreferrer">
+                  LinkedIn
+                </a>
+              )}
+              <a href={`https://${settings.domain}`} target="_blank" rel="noreferrer">
+                {settings.domain}
               </a>
             </div>
           </div>
@@ -89,9 +99,9 @@ export default function Footer() {
       <div className="container">
         <div className="footer__bar">
           <span>
-            © {year} {site.legalName}. All rights reserved.
+            © {year} {settings.legalName}. All rights reserved.
           </span>
-          <span className="script">{site.tagline}</span>
+          <span className="script">{settings.tagline}</span>
         </div>
       </div>
     </footer>

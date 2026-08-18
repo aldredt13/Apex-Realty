@@ -2,12 +2,33 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import Logo from "./Logo";
 import Icon from "./Icon";
-import { nav, site } from "../data/site";
+import { nav } from "../data/site";
+import { useSettings } from "../context/SettingsContext";
+import { useAuth } from "../context/AuthContext";
+import { isKnownDevice } from "../lib/loginAudit";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const settings = useSettings();
+  const { session, isStaff } = useAuth();
+  // Staff shortcut: only revealed on devices/IPs that have signed in before.
+  const [knownDevice, setKnownDevice] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    isKnownDevice().then((known) => {
+      if (alive) setKnownDevice(known);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [session]);
+
+  const showStaffLink = knownDevice || Boolean(session);
+  const staffLabel = isStaff ? "Dashboard" : "Staff Login";
+  const staffHref = isStaff ? "/dashboard" : "/dashboard/login";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -50,14 +71,21 @@ export default function Header() {
         </nav>
 
         <div className="header__cta">
+          {showStaffLink && (
+            <Link to={staffHref} className="header__staff" title={staffLabel}>
+              <Icon name={isStaff ? "grid" : "lock"} />
+              <span className="btn-label">{staffLabel}</span>
+            </Link>
+          )}
           <a
-            href={site.whatsapp.link}
+            href={settings.whatsapp.link}
             className="btn btn--whatsapp"
             target="_blank"
             rel="noreferrer"
+            aria-label="Chat on WhatsApp"
           >
             <Icon name="whatsapp" />
-            Chat on WhatsApp
+            <span className="btn-label">Chat on WhatsApp</span>
           </a>
           <button
             className="header__burger"
@@ -100,7 +128,7 @@ export default function Header() {
 
           <div className="drawer__cta">
             <a
-              href={site.whatsapp.link}
+              href={settings.whatsapp.link}
               className="btn btn--whatsapp btn--block"
               target="_blank"
               rel="noreferrer"
@@ -111,6 +139,11 @@ export default function Header() {
             <Link to="/contact" className="btn btn--gold btn--block">
               Get In Touch
             </Link>
+            {showStaffLink && (
+              <Link to={staffHref} className="btn btn--outline btn--block">
+                <Icon name={isStaff ? "grid" : "lock"} /> {staffLabel}
+              </Link>
+            )}
           </div>
         </div>
       </div>
